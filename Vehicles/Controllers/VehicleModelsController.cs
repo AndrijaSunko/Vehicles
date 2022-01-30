@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Vehicles;
 using Vehicles.Data;
 using Vehicles.Models;
 
-namespace Vehicles.Controllers
+namespace VehiclesApp.Controllers
 {
     public class VehicleModelsController : Controller
     {
@@ -21,9 +22,53 @@ namespace Vehicles.Controllers
         }
 
         // GET: VehicleModels
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+                                            string sortOrder,
+                                            string currentFilter,
+                                            string searchString,
+                                            int? pageNumber)
         {
-            return View(await _context.VehicleModel.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["AbrvSortParm"] = String.IsNullOrEmpty(sortOrder) ? "abrv_desc" : "";
+            ViewData["MakeIdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "MakeId" : "";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+
+            var vehicleModels = from s in _context.VehicleModel
+                                select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vehicleModels = vehicleModels.Where(s => s.Name.Contains(searchString)
+                                       || s.Abrv.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "Name_desc":
+                    vehicleModels = vehicleModels.OrderByDescending(s => s.Name);
+                    break;
+                case "MakeId_desc":
+                    vehicleModels = vehicleModels.OrderByDescending(s => s.Name);
+                    break;
+                case "Abrv_desc":
+                    vehicleModels = vehicleModels.OrderByDescending(s => s.Abrv);
+                    break;
+                default:
+                    vehicleModels = vehicleModels.OrderBy(s => s.Name);
+                    break;
+            }
+            int pageSize = 3;
+            return View(await PaginatedList<VehicleModel>.CreateAsync(vehicleModels.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: VehicleModels/Details/5
