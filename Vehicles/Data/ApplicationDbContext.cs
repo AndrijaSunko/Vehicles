@@ -22,7 +22,7 @@ namespace Vehicles.Data
         public virtual ICollection<AppUser> Users { get; set; }
 
     }
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -30,5 +30,7 @@ namespace Vehicles.Data
         }
         public DbSet<Vehicles.Models.VehicleMake> VehicleMake { get; set; }
         public DbSet<Vehicles.Models.VehicleModel> VehicleModel { get; set; }
+
+        public DbSet<Vehicles.Models.AppUser> AppUsers { get; set; }
     }
 }

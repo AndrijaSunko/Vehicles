@@ -2,13 +2,20 @@
 @using Microsoft.AspNetCore
 @using Vehicles.Data
 
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle nav-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    Admin
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><a class="dropdown-item" asp-area="Admin" asp-controller="VehicleMakesAdmin" asp-action="Index">VehicleMake</a></li>
-    <div class="dropdown-divider"></div>
-    <li><a class="dropdown-item" asp-area="Admin" asp-controller="VehicleModelsAdmin" asp-action="Index">VehicleModel</a></li>
-  </ul>
-</div>
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "admin"))
+{
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle nav-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Admin
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" asp-area="" asp-controller="VehicleMakes" asp-action="Index">VehicleMakes</a></li>
+            <div class="dropdown-divider"></div>
+            <li><a class="dropdown-item" asp-area="" asp-controller="VehicleModels" asp-action="Index">VehicleModels</a>
+        </ul>
+    </div>
+
+}
