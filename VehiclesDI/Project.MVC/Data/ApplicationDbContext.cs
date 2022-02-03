@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Project.Service.Entities;
 
 namespace Project.MVC.Data
 {
@@ -9,5 +10,6 @@ namespace Project.MVC.Data
             : base(options)
         {
         }
+        public DbSet<Project.Service.Entities.VehicleMake> VehicleMake { get; set; }
     }
 }

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Project.Service.Entities
 {
-    internal class VehicleModel
+    public class VehicleModel
     {
+        public int Id { get; set; }
+        public int MakeId { get; set; }
+        public string Name { get; set; }
+        public string Abrv { get; set; }
     }
 }
