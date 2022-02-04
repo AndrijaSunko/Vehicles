@@ -8,27 +8,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project.MVC.Data;
 using Project.Service.Entities;
+using Project.Service.VehicleService;
+
 
 namespace Project.MVC.Controllers
 {
     public class VehicleMakesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IVehicleMakeService _iVehicleMakeService;
 
-        public VehicleMakesController(ApplicationDbContext context)
+
+
+        public VehicleMakesController(ApplicationDbContext context, IVehicleMakeService iVehicleMakeService)
         {
             _context = context;
+            _iVehicleMakeService = iVehicleMakeService;
         }
 
         // GET: VehicleMakes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+            var a = _iVehicleMakeService.GetVehicleWithPagination( sortOrder);
             return View(await _context.VehicleMake.ToListAsync());
         }
 
         // GET: VehicleMakes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // _iVehicleMakeService.
             if (id == null)
             {
                 return NotFound();

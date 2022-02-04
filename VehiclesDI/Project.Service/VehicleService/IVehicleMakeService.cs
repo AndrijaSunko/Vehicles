@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Project.Service.VehicleService
 {
-    public interface IVehicleMakeService
+    public interface IVehicleMakeService 
     {
-        Task<VehicleMake[]> GetIncompleteItemsAsync(VehicleMake[] items);
-       
+
+        IQueryable<VehicleMake> GetVehicleWithPagination(string sortOrder);
     }
+
 }
+

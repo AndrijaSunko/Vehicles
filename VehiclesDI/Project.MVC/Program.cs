@@ -1,8 +1,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project.MVC.Data;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using System.Reflection;
+using Project.Service.VehicleService;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -13,6 +18,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IVehicleMakeService, VehicleMakeService>();
 
 var app = builder.Build();
 
