@@ -10,7 +10,10 @@ namespace Project.Service.VehicleService
     public interface IVehicleMakeService 
     {
 
-        IQueryable<VehicleMake> GetVehicleWithPagination(string sortOrder);
+        IQueryable<VehicleMake> VehicleSort(string sortOrder, string searchString);
+
+       
+
     }
 
 }

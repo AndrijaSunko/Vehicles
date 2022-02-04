@@ -27,9 +27,14 @@ namespace Project.MVC.Controllers
         }
 
         // GET: VehicleMakes
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var a = _iVehicleMakeService.GetVehicleWithPagination( sortOrder);
+            var a = _iVehicleMakeService.VehicleSort(sortOrder, searchString);
+
+          //  ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+          //  ViewData["CurrentSort"] = sortOrder;
+          //  ViewData["CurrentFilter"] = searchString;
+            
             return View(await _context.VehicleMake.ToListAsync());
         }
 
