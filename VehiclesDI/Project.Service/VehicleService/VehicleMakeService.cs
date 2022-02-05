@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Project.Service;
 
 
 namespace Project.Service.VehicleService
@@ -24,18 +25,26 @@ namespace Project.Service.VehicleService
 
         
 
-        public IQueryable<VehicleMake>VehicleSort(string sortOrder, string searchString)
+        public IEnumerable<VehicleMake> VehicleSort(string sortOrder, string searchString, int? pageNumber, int pageSize = 3)
 
         {
+            
+           
             
             var vehicleMakes = from s in _context.VehicleMake
                                select s;
 
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 vehicleMakes = vehicleMakes.Where(s => s.Name.Contains(searchString)
-                                       || s.Abrv.Contains(searchString));
+                );
             }
+
 
             switch (sortOrder)
             {
@@ -47,6 +56,7 @@ namespace Project.Service.VehicleService
                     vehicleMakes = vehicleMakes.OrderBy(s => s.Name);
                     break;
             }
+            
             return vehicleMakes;
         }        
     }

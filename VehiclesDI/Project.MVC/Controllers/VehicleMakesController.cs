@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project.MVC.Data;
+using Project.Service;
 using Project.Service.Entities;
 using Project.Service.VehicleService;
 
@@ -17,6 +18,7 @@ namespace Project.MVC.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IVehicleMakeService _iVehicleMakeService;
+        
 
 
 
@@ -24,18 +26,20 @@ namespace Project.MVC.Controllers
         {
             _context = context;
             _iVehicleMakeService = iVehicleMakeService;
+            
         }
 
         // GET: VehicleMakes
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, int pageSize)
         {
-            var a = _iVehicleMakeService.VehicleSort(sortOrder, searchString);
+            var a = _iVehicleMakeService.VehicleSort(sortOrder, searchString, pageNumber, pageSize);
+            var vehicleMakes = from s in _context.VehicleMake
+                               select s;
+            //  ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //  ViewData["CurrentSort"] = sortOrder;
+            //  ViewData["CurrentFilter"] = searchString;
 
-          //  ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-          //  ViewData["CurrentSort"] = sortOrder;
-          //  ViewData["CurrentFilter"] = searchString;
-            
-            return View(await _context.VehicleMake.ToListAsync());
+            return View(await PaginatedList<VehicleMake>.CreateAsync(vehicleMakes.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: VehicleMakes/Details/5
