@@ -8,24 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Project.Service;
-
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Project.Service.VehicleService
 {
     public class VehicleMakeService : IVehicleMakeService
     {
         private readonly ApplicationDbContext _context;
-       // private readonly IVehicleMakeService _iVehicleMakeService;
+        private readonly IVehicleMakeService _iVehicleMakeService;
+        private string? currentFilter;
 
         public VehicleMakeService(ApplicationDbContext context /*IVehicleMakeService iVehicleMakeService*/)
         {
             _context = context;
           // _iVehicleMakeService = iVehicleMakeService;
         }
-
+   
         
 
-        public IEnumerable<VehicleMake> VehicleSort(string sortOrder, string searchString, int? pageNumber, int pageSize = 3)
+        public IQueryable<VehicleMake> VehicleSort(string sortOrder, string searchString, string currentFilter, int? pageNumber, int pageSize = 3)
 
         {               
             
@@ -36,11 +37,15 @@ namespace Project.Service.VehicleService
             {
                 pageNumber = 1;
             }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 vehicleMakes = vehicleMakes.Where(s => s.Name.Contains(searchString)
-                );
+                || s.Abrv.Contains(searchString));
             }
 
 
@@ -49,13 +54,15 @@ namespace Project.Service.VehicleService
                 case "name_desc":
                     vehicleMakes = vehicleMakes.OrderByDescending(s => s.Name);
                     break;
-                
+                case "Abrv_desc":
+                    vehicleMakes = vehicleMakes.OrderByDescending(s => s.Abrv);
+                    break;
                 default:
                     vehicleMakes = vehicleMakes.OrderBy(s => s.Name);
                     break;
             }
-            
-            return vehicleMakes;
+
+            return (IQueryable<VehicleMake>)vehicleMakes;
         }        
     }
 }

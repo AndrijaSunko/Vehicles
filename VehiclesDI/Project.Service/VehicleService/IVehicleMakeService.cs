@@ -9,12 +9,8 @@ namespace Project.Service.VehicleService
 {
     public interface IVehicleMakeService 
     {
-
-        IEnumerable<VehicleMake> VehicleSort(string sortOrder, string searchString, int? pageNumber,int pageSize);
+        IQueryable<VehicleMake> VehicleSort(string sortOrder, string searchString, string currentFilter, int? pageNumber,int pageSize);
        
-        
-       
-
     }
 
 }

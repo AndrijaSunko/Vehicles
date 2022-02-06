@@ -9,6 +9,6 @@ namespace Project.Service.VehicleService
 {
     public interface IVehicleModelService
     {
-        IEnumerable<VehicleModel> VehicleModelSort(string sortOrder, string searchString, int? pageNumber, int pageSize);
+        IQueryable<VehicleModel> VehicleModelSort(string sortOrder, string searchString, string currentFilter, int? pageNumber, int pageSize);
     }
 }

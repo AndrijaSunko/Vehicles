@@ -16,7 +16,7 @@ namespace Project.Service.VehicleService
         {
             _context = context;        
         }
-        public IEnumerable<VehicleModel> VehicleModelSort(string sortOrder, string searchString, int? pageNumber, int pageSize)
+        public IQueryable<VehicleModel> VehicleModelSort(string sortOrder, string searchString, string currentFilter, int? pageNumber, int pageSize)
         {
 
             var vehicleModels = from s in _context.VehicleModel
@@ -26,11 +26,15 @@ namespace Project.Service.VehicleService
             {
                 pageNumber = 1;
             }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 vehicleModels = vehicleModels.Where(s => s.Name.Contains(searchString)
-                );
+                                                     || s.Abrv.Contains(searchString));
             }
 
 
@@ -39,13 +43,16 @@ namespace Project.Service.VehicleService
                 case "name_desc":
                     vehicleModels = vehicleModels.OrderByDescending(s => s.Name);
                     break;
+                case "Abrv_desc":
+                    vehicleModels = vehicleModels.OrderByDescending(s => s.Abrv);
+                    break;
 
                 default:
                     vehicleModels = vehicleModels.OrderBy(s => s.Name);
                     break;
             }
 
-            return vehicleModels;
+            return (IQueryable<VehicleModel>)vehicleModels;
         }
     }
 }

@@ -30,14 +30,20 @@ namespace Project.MVC.Controllers
         }
 
         // GET: VehicleMakes
-        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, int pageSize)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber, int pageSize)
         {
-            var a = _iVehicleMakeService.VehicleSort(sortOrder, searchString, pageNumber, pageSize);
-            var vehicleMakes = from s in _context.VehicleMake
-                               select s;
-            
+             var a = _iVehicleMakeService.VehicleSort(sortOrder, searchString, currentFilter, pageNumber, pageSize);
+              var vehicleMakes = from s in _context.VehicleMake
+                                 select s;
 
-            return View(await PaginatedList<VehicleMake>.CreateAsync(vehicleMakes.AsNoTracking(), pageNumber ?? 1, pageSize));
+              ViewData["CurrentSort"] = sortOrder;          
+              ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+              ViewData["AbrvSortParm"] = String.IsNullOrEmpty(sortOrder) ? "abrv_desc" : "";
+              ViewData["CurrentFilter"] = searchString;
+
+             // return View(await PaginatedList<VehicleMake>.CreateAsync(vehicleMakes.AsNoTracking(), pageNumber ?? 1, pageSize));
+            
+            return View(await _context.VehicleMake.ToListAsync());
         }
 
         // GET: VehicleMakes/Details/5

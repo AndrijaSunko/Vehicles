@@ -25,9 +25,14 @@ namespace VehiclesApp.Controllers
         }
 
         // GET: VehicleModels
-        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, int pageSize)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber, int pageSize)
         {
-            var b = _iVehicleModelService.VehicleModelSort(sortOrder, searchString, pageNumber, pageSize);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["AbrvSortParm"] = String.IsNullOrEmpty(sortOrder) ? "abrv_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
+
+            var b = _iVehicleModelService.VehicleModelSort(sortOrder, searchString , currentFilter, pageNumber, pageSize);
             var vehicleModels = from s in _context.VehicleModel
                                 select s;
 

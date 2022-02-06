@@ -6,12 +6,13 @@ using Autofac.Extensions.DependencyInjection;
 using System.Reflection;
 using Project.Service.VehicleService;
 using Microsoft.Extensions.DependencyInjection;
+using Project.Service.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ProjectMVCContext>(options =>
+// builder.Services.AddDbContext<ProjectMVCContext>(options =>
 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectMVCContext")));
+   // options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectMVCContext")));
 
 
 // Add services to the container.
@@ -27,7 +28,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IVehicleMakeService, VehicleMakeService>();
 builder.Services.AddScoped<IVehicleModelService, VehicleModelService>();
 
+
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
