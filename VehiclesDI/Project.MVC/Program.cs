@@ -5,8 +5,13 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using System.Reflection;
 using Project.Service.VehicleService;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ProjectMVCContext>(options =>
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectMVCContext")));
 
 
 // Add services to the container.
@@ -20,6 +25,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IVehicleMakeService, VehicleMakeService>();
+builder.Services.AddScoped<IVehicleModelService, VehicleModelService>();
 
 var app = builder.Build();
 

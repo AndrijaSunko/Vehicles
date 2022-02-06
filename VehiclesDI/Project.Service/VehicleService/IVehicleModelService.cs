@@ -9,6 +9,6 @@ namespace Project.Service.VehicleService
 {
     public interface IVehicleModelService
     {
-        Task<VehicleModel[]> GetIncompleteItemsAsync(VehicleModel[] items);
+        IEnumerable<VehicleModel> VehicleModelSort(string sortOrder, string searchString, int? pageNumber, int pageSize);
     }
 }

@@ -27,9 +27,7 @@ namespace Project.Service.VehicleService
 
         public IEnumerable<VehicleMake> VehicleSort(string sortOrder, string searchString, int? pageNumber, int pageSize = 3)
 
-        {
-            
-           
+        {               
             
             var vehicleMakes = from s in _context.VehicleMake
                                select s;

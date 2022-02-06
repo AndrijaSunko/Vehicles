@@ -11,5 +11,6 @@ namespace Project.MVC.Data
         {
         }
         public DbSet<Project.Service.Entities.VehicleMake> VehicleMake { get; set; }
+        public DbSet<Project.Service.Entities.VehicleModel> VehicleModel { get; set; }
     }
 }
