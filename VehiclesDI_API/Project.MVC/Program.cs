@@ -20,8 +20,8 @@ builder.Services.AddHttpClient();
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 
- builder.Services.AddTransient<IRepository<VehicleMake>, RepositoryVehicleMake>();
- builder.Services.AddTransient<VehicleMakeService, VehicleMakeService>();
+builder.Services.AddTransient<IRepository<VehicleMake>, RepositoryVehicleMake>();
+builder.Services.AddTransient<VehicleMakeService, VehicleMakeService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -37,6 +37,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+// swagger default UI
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");

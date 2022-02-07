@@ -8,11 +8,11 @@ namespace Project.Service
 {
     public interface IRepository<T>
     {
+        public IEnumerable<T> GetAll();
         public Task<T> Create(T _object);
 
         public void Update(T _object);
-
-        public IEnumerable<T> GetAll();
+                
 
         public T GetById(int Id);
 

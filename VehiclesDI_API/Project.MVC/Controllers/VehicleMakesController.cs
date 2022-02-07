@@ -19,6 +19,21 @@ namespace Project.MVC.Controllers
             _vehicleMakeService = vehicleMakeService;
             _VehicleMake = VehicleMake;
         }
+
+        //GET All Makes 
+        [HttpGet("GetAllMakes")]
+        public Object GetAllMakes()
+        {
+            var data = _vehicleMakeService.GetVehicleMakes();
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }
+            );
+            return json;
+        }
+
         //Add Make 
         [HttpPost("AddVehicleMake")]
         public async Task<Object> AddMake([FromBody] VehicleMake vehicleMake)
@@ -75,18 +90,6 @@ namespace Project.MVC.Controllers
             );
             return json;
         }
-        //GET All Makes 
-        [HttpGet("GetAllMakes")]
-        public Object GetAllMakes()
-        {
-            var data = _vehicleMakeService.GetVehicleMakes();
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
-        }
+        
     }
 }
