@@ -6,22 +6,16 @@ using System.Threading.Tasks;
 
 namespace Project.Service.Models
 {
-    public class MakeParams
+    public class MakeParams : QueryStringParams
     {
-        const int maxPageSize = 20;
-        public int pageNumber { get; set; } =1;
-
-        private int _pageSize = 10;
-        public int pageSize
+        public MakeParams()
         {
-            get 
-            { 
-                return _pageSize;
-            }
-            set
-            {
-                _pageSize = (value > maxPageSize) ? maxPageSize : value;
-            }
+            OrderBy = "Name";
         }
+        public int MinId { get; set; }
+
+        public int MaxId { get; set; }
+
+        public bool ValidId => MaxId > MinId;
     }
 }

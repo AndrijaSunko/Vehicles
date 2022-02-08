@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Project.Service.DataTransferObjects;
 using Project.Service.Interface;
 using Project.Service.Models;
+using Project.Service.Repository;
 
 namespace Project.Api.Controllers
 {
@@ -28,6 +29,7 @@ namespace Project.Api.Controllers
         {
             try
             {
+                
                 var makes = _repository.VehicleMake.GetAllMakes(makeParams);
 
                 var metadata = new
@@ -37,7 +39,6 @@ namespace Project.Api.Controllers
                     makes.CurrentPage,
                     makes.HasNext,
                     makes.HasPrevious             
-
                 };
 
                 Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));

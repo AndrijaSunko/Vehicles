@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Project.Service.Models
 {
-    internal class AccountParams
+    public class ModelParams : QueryStringParams
     {
+        public ModelParams()
+        {
+            OrderBy = "Name";
+        }
     }
 }

@@ -7,7 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using NLog;
 using Swashbuckle.AspNetCore.Swagger;
-
+using Project.Service.Helpers;
+using Project.Service.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddScoped<ISortHelper<VehicleMake>, SortHelper<VehicleMake>>();
+builder.Services.AddScoped<ISortHelper<VehicleModel>, SortHelper<VehicleModel>>();
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 

@@ -6,7 +6,23 @@ using System.Threading.Tasks;
 
 namespace Project.Service.Models
 {
-    internal class QueryStringParams
+    public abstract class QueryStringParams
     {
+        const int maxPageSize = 20;
+        public int pageNumber { get; set; } = 1;
+
+        private int _pageSize = 10;
+        public int pageSize
+        {
+            get
+            {
+                return _pageSize;
+            }
+            set
+            {
+                _pageSize = (value > maxPageSize) ? maxPageSize : value;
+            }
+        }
+        public string OrderBy { get; set; }
     }
 }

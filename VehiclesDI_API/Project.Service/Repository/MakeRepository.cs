@@ -6,14 +6,17 @@ using Project.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
 
 namespace Project.Service.Repository
 {
     public class MakeRepository : RepositoryBase<VehicleMake>, IMakeRepository
     {
-        public MakeRepository(ApplicationDbContext applicationDbContext)
+       private  ISortHelper<VehicleMake> _sortHelper;
+        public MakeRepository(ApplicationDbContext applicationDbContext, ISortHelper<VehicleMake> sortHelper)
             : base(applicationDbContext)
         {
 
@@ -23,6 +26,11 @@ namespace Project.Service.Repository
 
         public PagedList<VehicleMake> GetAllMakes(MakeParams makeParams)
         {
+            var makes = FindByCondition(o => o.Id >= makeParams.MinId &&
+                                o.Id <= makeParams.MaxId)
+                            .OrderBy(on => on.Name);
+
+         //   var sortedMakes = _sortHelper.ApplySort(makes, makeParams.OrderBy);
             return PagedList<VehicleMake>.ToPagedList(FindAll().OrderBy(mk => mk.Name),
                                            makeParams.pageNumber, makeParams.pageSize);
         }
