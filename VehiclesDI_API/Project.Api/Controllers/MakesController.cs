@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Project.Service.DataTransferObjects;
 using Project.Service.Interface;
 using Project.Service.Models;
@@ -23,13 +24,25 @@ namespace Project.Api.Controllers
 
 
         [HttpGet]
-        public IActionResult GetAllMakes()
+        public IActionResult GetAllMakes([FromQuery] MakeParams makeParams)
         {
             try
             {
-                var makes = _repository.VehicleMake.GetAllMakes();
+                var makes = _repository.VehicleMake.GetAllMakes(makeParams);
 
-                _logger.LogInfo($"Returned all vehicle makes");
+                var metadata = new
+                {
+                    makes.TotalCount,
+                    makes.PageSize,
+                    makes.CurrentPage,
+                    makes.HasNext,
+                    makes.HasPrevious             
+
+                };
+
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+                _logger.LogInfo($"Returned {makes.TotalCount} vehicle makes from the database.");
 
                 var makesResult = _mapper.Map<IEnumerable<VehicleMakeDto>>(makes);
                 return Ok(makesResult);

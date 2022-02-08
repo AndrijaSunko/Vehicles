@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.Service.Data;
+using Project.Service.Helpers;
 using Project.Service.Interface;
 using Project.Service.Models;
 using System;
@@ -20,11 +21,10 @@ namespace Project.Service.Repository
 
         
 
-        public IEnumerable<VehicleMake> GetAllMakes()
+        public PagedList<VehicleMake> GetAllMakes(MakeParams makeParams)
         {
-            return FindAll()
-                .OrderBy(mk => mk.Name)
-                .ToList();
+            return PagedList<VehicleMake>.ToPagedList(FindAll().OrderBy(mk => mk.Name),
+                                           makeParams.pageNumber, makeParams.pageSize);
         }
 
         public VehicleMake GetMakeById(int Id)
