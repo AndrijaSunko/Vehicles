@@ -12,5 +12,10 @@ namespace Project.Service.Interface
         IEnumerable<VehicleMake> GetAllMakes();  
         VehicleMake GetMakeById(int Id);
         VehicleMake GetMakeWithDetails (int Id);
+        void CreateVehicleMake(VehicleMake vehicleMake);
+
+        void UpdateVehicleMake(VehicleMake vehicleMake);
+
+        void DeleteVehicleMake(VehicleMake vehicleMake);
     }
 }

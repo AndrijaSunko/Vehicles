@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project.Service.DataTransferObjects;
 using Project.Service.Interface;
+using Project.Service.Models;
 
 namespace Project.Api.Controllers
 {
@@ -41,7 +42,7 @@ namespace Project.Api.Controllers
             }
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("{Id}", Name ="MakeById")]
         public IActionResult GetMakeById(int Id)
         {
             try
@@ -88,6 +89,100 @@ namespace Project.Api.Controllers
                 return StatusCode(500, "internal server error");
             }
         }
-            
+
+        [HttpPost]
+        public IActionResult CreateVehicleMake ([FromBody]MakeForCreationDto vehicleMake)
+        {
+            try
+            {             
+                if (vehicleMake == null)
+                {
+                    _logger.LogError("Make object sent from the client is null");
+                    return BadRequest("Make object is null");
+                }
+                if (ModelState.IsValid)
+                {
+                    _logger.LogError("Make object sent from the client is invalid");
+                    return BadRequest("Make object is invalid");
+                }
+
+                var makeEntity =  _mapper.Map<VehicleMake>(vehicleMake);
+                _repository.VehicleMake.CreateVehicleMake(makeEntity);
+                _repository.save();
+                var createdMake = _mapper.Map<VehicleMakeDto>(makeEntity);
+
+                return CreatedAtRoute("MakeById", new { id = createdMake.Id}, createdMake);
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError($"Something went wrong with the CreateVehicleMake action: {ex.Message}");
+                return StatusCode(500, "internal server error");
+            }
+        }
+
+        [HttpPut("{Id}")]
+        public IActionResult UpdateVehicleMake (int Id, [FromBody]MakeForCreationDto vehicleMake)
+        {
+            try
+            {
+                if (vehicleMake == null)
+                {
+                    _logger.LogError("Make object sent from the client is null");
+                    return BadRequest("Make object is null");
+                }
+                if (ModelState.IsValid)
+                {
+                    _logger.LogError("Make object sent from the client is invalid");
+                    return BadRequest("Make object is invalid");
+                }
+                
+                var makeEntity = _repository.VehicleMake.GetMakeById(Id);
+                if (makeEntity == null)
+                {
+                    _logger.LogError($"Make with  Id: {Id}, was not found in the database");
+                    return NotFound();
+                }
+                _mapper.Map(vehicleMake, makeEntity);
+                _repository.VehicleMake.UpdateVehicleMake(makeEntity);
+                _repository.save();
+
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError($"Something went wrong with the UpdateVehicleMake action: {ex.Message}");
+                return StatusCode(500, "internal server error");
+            }
+        }
+
+        [HttpDelete("{Id}")]
+
+        public IActionResult DeleteVehicleMake(int Id)
+        {
+            try
+            {
+                var make = _repository.VehicleMake.GetMakeById(Id);
+                if (make == null)
+                {
+                    _logger.LogError($"Make with  Id: {Id}, was not found in the database");
+                    return NotFound();
+                }
+
+                _repository.VehicleMake.DeleteVehicleMake(make);
+                _repository.save();
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError($"Something went wrong with the UpdateVehicleMake action: {ex.Message}");
+                return StatusCode(500, "internal server error");
+            }
+        }
+
     }
 }

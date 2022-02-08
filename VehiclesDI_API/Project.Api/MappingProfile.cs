@@ -10,6 +10,8 @@ namespace Project.Api
         {
             CreateMap<VehicleMake, VehicleMakeDto>();
             CreateMap<VehicleModel, VehicleModelDto>();
+            CreateMap<MakeForCreationDto, VehicleMake>();
+            CreateMap<MakeForUpdateDto, VehicleMake>();
         }
     }
 }

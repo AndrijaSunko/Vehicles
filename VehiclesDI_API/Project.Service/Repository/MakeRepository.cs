@@ -18,6 +18,8 @@ namespace Project.Service.Repository
 
         }
 
+        
+
         public IEnumerable<VehicleMake> GetAllMakes()
         {
             return FindAll()
@@ -36,6 +38,13 @@ namespace Project.Service.Repository
             return FindByCondition(VehicleMake => VehicleMake.Id.Equals(Id))
                 .Include(mo => mo.VehicleModels)
                 .FirstOrDefault();
-        }       
+        }
+
+        public void CreateVehicleMake(VehicleMake vehicleMake) => Create(vehicleMake);
+
+        public void UpdateVehicleMake(VehicleMake vehicleMake) => Update(vehicleMake);
+
+        public void DeleteVehicleMake(VehicleMake vehicleMake) => Delete(vehicleMake);
+
     }
 }
