@@ -8,7 +8,7 @@ using Project.Service.Models;
 
 namespace Project.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/models")]
     [ApiController]
     public class ModelsController : ControllerBase
     {
