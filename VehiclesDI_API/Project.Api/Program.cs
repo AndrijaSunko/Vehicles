@@ -9,6 +9,8 @@ using NLog;
 using Swashbuckle.AspNetCore.Swagger;
 using Project.Service.Helpers;
 using Project.Service.Models;
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,17 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+// autofac
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+{
+
+builder.RegisterType<SortHelper<VehicleMake>>().As<ISortHelper<VehicleMake>>().InstancePerLifetimeScope();
+builder.RegisterType<SortHelper<VehicleModel>>().As<ISortHelper<VehicleModel>>().InstancePerLifetimeScope();
+builder.RegisterType<LoggerManager>().As<ILoggerManager>().SingleInstance();
+builder.RegisterType<RepositoryWrapper>().As<IRepositoryWrapper>().InstancePerLifetimeScope();
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -24,18 +37,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(typeof(Program));
 
+// asp.net core DI
+/*
 builder.Services.AddScoped<ISortHelper<VehicleMake>, SortHelper<VehicleMake>>();
 builder.Services.AddScoped<ISortHelper<VehicleModel>, SortHelper<VehicleModel>>();
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
-
+*/
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-   // app.UseSwagger();
-   // app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
     
 }
