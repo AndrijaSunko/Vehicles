@@ -1,4 +1,5 @@
-﻿using Project.Service.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Project.Service.Data;
 using Project.Service.Helpers;
 using Project.Service.Interface;
 using Project.Service.Models;
@@ -12,26 +13,32 @@ namespace Project.Service.Repository
 {
     public class ModelRepository : RepositoryBase<VehicleModel>, IModelRepository
     {
-        private ISortHelper<VehicleModel> _modelSortModelHelper;
-        public ModelRepository(ApplicationDbContext applicationDbContext, ISortHelper<VehicleModel> modelSortHelper )
+        private ISortHelper<VehicleModel> _sortModelHelper;
+        public ModelRepository(ApplicationDbContext applicationDbContext, ISortHelper<VehicleModel> sortHelper )
             : base(applicationDbContext)
         {
 
         }
 
-        public PagedList<VehicleModel> GetAllMakes(ModelParams modelParams)
+        public PagedList<VehicleModel> GetAllModels(ModelParams modelParams)
         {
-            throw new NotImplementedException();
+            
+
+            //   var sortedModels = _sortHelper.ApplySort(models, modelParams.OrderBy);
+            return PagedList<VehicleModel>.ToPagedList(FindAll().OrderBy(mo => mo.Name),
+                                           modelParams.pageNumber, modelParams.pageSize);
         }
 
-        public VehicleMake GetMakeById(int Id)
+        public VehicleModel GetModelById(int Id)
         {
-            throw new NotImplementedException();
+            return FindByCondition(VehicleModel => VehicleModel.Id.Equals(Id))
+                 .FirstOrDefault();
         }
 
-        public VehicleMake GetMakeWithDetails(int Id)
+        public VehicleModel GetModelsWithDetails(int Id)
         {
-            throw new NotImplementedException();
+            return FindByCondition(VehicleModel => VehicleModel.Id.Equals(Id))
+                  .FirstOrDefault();
         }
     }
 }

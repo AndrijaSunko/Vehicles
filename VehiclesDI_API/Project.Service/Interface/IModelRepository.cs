@@ -10,9 +10,9 @@ namespace Project.Service.Interface
 {
     public interface IModelRepository : IRepository<VehicleModel>
     {
-        PagedList<VehicleModel> GetAllMakes(ModelParams modelParams);
-        VehicleMake GetMakeById(int Id);
-        VehicleMake GetMakeWithDetails(int Id);
+        PagedList<VehicleModel> GetAllModels(ModelParams modelParams);
+        VehicleModel GetModelById(int Id);
+        VehicleModel GetModelsWithDetails(int Id);
 
     }
 }
