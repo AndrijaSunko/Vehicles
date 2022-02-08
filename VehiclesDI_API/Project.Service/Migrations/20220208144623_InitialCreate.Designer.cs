@@ -11,7 +11,7 @@ using Project.Service.Data;
 namespace Project.Service.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220207191317_InitialCreate")]
+    [Migration("20220208144623_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
