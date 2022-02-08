@@ -9,5 +9,8 @@ namespace Project.Service.Interface
 {
     public interface IMakeRepository :IRepository<VehicleMake>
     {
+        IEnumerable<VehicleMake> GetAllMakes();  
+        VehicleMake GetMakeById(int Id);
+        VehicleMake GetMakeWithDetails (int Id);
     }
 }
