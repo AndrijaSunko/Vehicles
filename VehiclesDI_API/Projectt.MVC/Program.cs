@@ -1,6 +1,9 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Project.MVC2;
+using Project.MVC2.Data;
 using Project.Service.Data;
 using Project.Service.Helpers;
 using Project.Service.Interface;
@@ -8,18 +11,23 @@ using Project.Service.Models;
 using Project.Service.Repository;
 using Project.Service.Service;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+
+
+ var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+ builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString)); 
+
+
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 {
-
+    builder.RegisterType<MakeRepository>().As<IMakeRepository>().InstancePerLifetimeScope();
     builder.RegisterType<SortHelper<VehicleMake>>().As<ISortHelper<VehicleMake>>().InstancePerLifetimeScope();
-    builder.RegisterType<SortHelper<VehicleModel>>().As<ISortHelper<VehicleModel>>().InstancePerLifetimeScope();
+    builder.RegisterType<SortHelper<Project.Service.Models.VehicleModel>>().As<ISortHelper<Project.Service.Models.VehicleModel>>().InstancePerLifetimeScope();
     builder.RegisterType<LoggerManager>().As<ILoggerManager>().SingleInstance();
     builder.RegisterType<RepositoryWrapper>().As<IRepositoryWrapper>().InstancePerLifetimeScope();
 });

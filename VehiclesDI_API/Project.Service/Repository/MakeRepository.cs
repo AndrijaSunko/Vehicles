@@ -21,9 +21,15 @@ namespace Project.Service.Repository
         {
 
         }
-
         
+        public IEnumerable<VehicleMake> GetAllMakes()
+        {
+            return FindAll()
+                .OrderBy(x => x.Name)
+                .ToList();
+        }
 
+        /*
         public PagedList<VehicleMake> GetAllMakes(MakeParams makeParams)
         {
             var makes = FindByCondition(o => o.Id >= makeParams.MinId &&
@@ -33,7 +39,7 @@ namespace Project.Service.Repository
          //   var sortedMakes = _sortHelper.ApplySort(makes, makeParams.OrderBy);
             return PagedList<VehicleMake>.ToPagedList(FindAll().OrderBy(mk => mk.Name),
                                            makeParams.pageNumber, makeParams.pageSize);
-        }
+        } */
 
         public VehicleMake GetMakeById(int Id)
         {
@@ -44,7 +50,7 @@ namespace Project.Service.Repository
         public VehicleMake GetMakeWithDetails(int Id)
         {
             return FindByCondition(VehicleMake => VehicleMake.Id.Equals(Id))
-                .Include(mo => mo.VehicleModels)
+                .Include(mo => mo.VehicleModel)
                 .FirstOrDefault();
         }
 
@@ -54,5 +60,6 @@ namespace Project.Service.Repository
 
         public void DeleteVehicleMake(VehicleMake vehicleMake) => Delete(vehicleMake);
 
+        
     }
 }

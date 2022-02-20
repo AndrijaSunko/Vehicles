@@ -15,6 +15,7 @@ namespace Project.Service.Models
         
 
         [ForeignKey("MakeId")]
-        public virtual ICollection<VehicleModel> VehicleModels { get; set; }
+        public virtual ICollection<VehicleModel> VehicleModel { get; set; }
+        
     }
 }

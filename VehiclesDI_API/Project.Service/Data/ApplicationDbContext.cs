@@ -14,10 +14,10 @@ namespace Project.Service.Data
         {
 
         }
-        protected override void OnModelCreating(ModelBuilder builder)
+       /* protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-        }
+        } */
         public DbSet<Project.Service.Models.VehicleMake> VehicleMake { get; set; }
         public DbSet<Project.Service.Models.VehicleModel> VehicleModel { get; set; }
     }
