@@ -10,7 +10,10 @@ namespace Project.Service.Interface
 {
     public interface IMakeRepository :IRepository<VehicleMake>
     {
-        IEnumerable<VehicleMake> GetAllMakes();
+       IEnumerable<VehicleMake> GetAllMakes(string sortOrder,
+                                                string currentFilter,
+                                                string searchString
+                                                );
        // PagedList<VehicleMake> GetAllMakes(MakeParams makeParams);  
         VehicleMake GetMakeById(int Id);
         VehicleMake GetMakeWithDetails (int Id);

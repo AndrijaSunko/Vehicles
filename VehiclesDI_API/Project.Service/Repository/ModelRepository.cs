@@ -19,15 +19,15 @@ namespace Project.Service.Repository
         {
 
         }
-
-        public PagedList<VehicleModel> GetAllModels(ModelParams modelParams)
+        /*
+        public PaginatedList<VehicleModel> GetAllModels(ModelParams modelParams)
         {
             
 
             //   var sortedModels = _sortHelper.ApplySort(models, modelParams.OrderBy);
-            return PagedList<VehicleModel>.ToPagedList(FindAll().OrderBy(mo => mo.Name),
-                                           modelParams.pageNumber, modelParams.pageSize);
-        }
+           // return PaginatedList<VehicleModel>.ToPaginatedList(FindAll().OrderBy(mo => mo.Name),
+            //                               modelParams.pageNumber, modelParams.pageSize);
+        } */
 
         public VehicleModel GetModelById(int Id)
         {
