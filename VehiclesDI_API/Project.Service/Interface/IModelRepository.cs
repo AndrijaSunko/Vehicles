@@ -10,7 +10,11 @@ namespace Project.Service.Interface
 {
     public interface IModelRepository : IRepository<VehicleModel>
     {
-       // PaginatedList<VehicleModel> GetAllModels(ModelParams modelParams);
+        IEnumerable<VehicleModel> GetAllModels(string sortOrder,
+                                                string currentFilter,
+                                                string searchString
+                                                );
+        // PaginatedList<VehicleModel> GetAllModels(ModelParams modelParams);
         VehicleModel GetModelById(int Id);
         VehicleModel GetModelsWithDetails(int Id);
 

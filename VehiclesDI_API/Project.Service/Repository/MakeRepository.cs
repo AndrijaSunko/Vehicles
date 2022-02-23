@@ -31,10 +31,7 @@ namespace Project.Service.Repository
             var makes = from s in _context.VehicleMake
                         select s;
           
-            
-                searchString = currentFilter;
-            
-           
+                       
             if (!String.IsNullOrEmpty(searchString))
             {
                 makes = makes.Where(s => s.Name.Contains(searchString)
@@ -55,8 +52,8 @@ namespace Project.Service.Repository
             }
 
             int pageSize = 3;
-            return makes.ToList();
-           // return PaginatedList<VehicleMake>.ToPaginatedList(FindAll().OrderBy(mk => mk.Name), pageNumber ?? 1, pageSize);
+          return makes.ToList();
+            //return PaginatedList<VehicleMake>.ToPaginatedList(FindAll(), pageNumber  , pageSize);
         }
 
         /*
@@ -90,6 +87,5 @@ namespace Project.Service.Repository
 
         public void DeleteVehicleMake(VehicleMake vehicleMake) => Delete(vehicleMake);
 
-        
-    }
+        }
 }

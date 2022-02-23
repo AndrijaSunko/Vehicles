@@ -10,7 +10,7 @@ namespace Project.MVC2
         {
             CreateMap<VehicleMake, VehicleMakeDto>();
             CreateMap<VehicleModel, VehicleModelDto>();
-            CreateMap<MakeForCreationDto, VehicleMake>();
+            CreateMap<MakeForCreationDto, Project.MVC2.Models.VehicleMake>();
             CreateMap<MakeForUpdateDto, VehicleMake>();
            
         }
