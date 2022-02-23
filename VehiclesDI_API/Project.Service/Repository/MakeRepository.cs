@@ -23,7 +23,7 @@ namespace Project.Service.Repository
             _context = applicationDbContext;
         }
         
-        public IEnumerable<VehicleMake> GetAllMakes(string sortOrder,
+        public IQueryable<VehicleMake> GetAllMakes(string sortOrder,
                                                 string currentFilter,
                                                 string searchString
                                                 )
@@ -52,21 +52,11 @@ namespace Project.Service.Repository
             }
 
             int pageSize = 3;
-          return makes.ToList();
+          return makes;
             //return PaginatedList<VehicleMake>.ToPaginatedList(FindAll(), pageNumber  , pageSize);
         }
 
-        /*
-        public PagedList<VehicleMake> GetAllMakes(MakeParams makeParams)
-        {
-            var makes = FindByCondition(o => o.Id >= makeParams.MinId &&
-                                o.Id <= makeParams.MaxId)
-                            .OrderBy(on => on.Name);
-
-         //   var sortedMakes = _sortHelper.ApplySort(makes, makeParams.OrderBy);
-            return PagedList<VehicleMake>.ToPagedList(FindAll().OrderBy(mk => mk.Name),
-                                           makeParams.pageNumber, makeParams.pageSize);
-        } */
+    
 
         public VehicleMake GetMakeById(int Id)
         {

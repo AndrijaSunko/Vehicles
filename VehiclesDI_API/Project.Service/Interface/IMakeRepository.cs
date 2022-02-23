@@ -10,7 +10,7 @@ namespace Project.Service.Interface
 {
     public interface IMakeRepository : IRepository<VehicleMake>
     {
-        IEnumerable<VehicleMake> GetAllMakes(string sortOrder,
+        IQueryable<VehicleMake> GetAllMakes(string sortOrder,
                                             string currentFilter,
                                             string searchString
                                                 );

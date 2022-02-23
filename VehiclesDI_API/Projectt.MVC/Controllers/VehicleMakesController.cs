@@ -46,10 +46,7 @@ namespace Project.MVC2.Controllers
             try
             {
          
-
-                // var makes = _repository.VehicleMake.GetAllMakes(sortOrder, currentFilter, searchString);
-
-                IEnumerable<VehicleMake> makes = (IEnumerable<VehicleMake>)_repository.VehicleMake.GetAllMakes
+                IQueryable<VehicleMake> makes = (IQueryable<VehicleMake>)_repository.VehicleMake.GetAllMakes
                                                       (sortOrder,
                                                       currentFilter,
                                                       searchString
@@ -60,13 +57,11 @@ namespace Project.MVC2.Controllers
 
                                                       });
 
-
-                //  int Size_Of_Page = 4;
-                //  int No_Of_Page = (Page_No ?? 1);
-                var model = PagingList.Create(makes, 3, pageindex);
-              //  return View(makes.ToPagedList(No_Of_Page, Size_Of_Page));7
-              return View(model);
-                //  return View(await PaginatedList<VehicleMake>.CreateAsync((IQueryable<VehicleMake>)makes, pageNumber ?? 1, pageSize));
+              // var model = PaginatedList.CreateAsync(makes, 3, pageIndex)
+              var list = PagingList.Create(makes, 3, pageindex);
+             
+              return View(list);
+              
             }
             catch (Exception ex)
             {
@@ -89,8 +84,8 @@ namespace Project.MVC2.Controllers
                 _logger.LogInfo($"Returned make with details with Id: {Id}");
 
                 var makeResult = _mapper.Map<VehicleMakeDto>(make);
+                return View(make);
 
-                return View(makeResult);
             }
             catch (Exception ex)
             {
@@ -98,7 +93,7 @@ namespace Project.MVC2.Controllers
                 _logger.LogError($"Something went wrong with the GetMakeWtihDetails action: {ex.Message}");
                 return StatusCode(500, "internal server error");
             }
-
+            
 
         }
 

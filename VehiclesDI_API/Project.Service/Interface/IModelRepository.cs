@@ -10,7 +10,7 @@ namespace Project.Service.Interface
 {
     public interface IModelRepository : IRepository<VehicleModel>
     {
-        IEnumerable<VehicleModel> GetAllModels(string sortOrder,
+        IQueryable<VehicleModel> GetAllModels(string sortOrder,
                                                 string currentFilter,
                                                 string searchString
                                                 );

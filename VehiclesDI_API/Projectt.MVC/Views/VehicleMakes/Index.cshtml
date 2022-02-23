@@ -2,15 +2,17 @@
 @addTagHelper *, ReflectionIT.Mvc.Paging
 
 @model PagingList<Project.MVC2.Models.VehicleMake>
-<link href="~/Content/PagedList.css" rel="stylesheet" />  
+
+
 @{
     ViewData["Title"] = "Index";
 
 }
 
 <h1>Index</h1>
+
 Total Record Count: @Model.TotalRecordCount
-<nav aria-label="Products navigation example">
+<nav aria-label="makes">
     <vc:pager paging-list="@Model"></vc:pager>
 </nav>
 
@@ -57,6 +59,6 @@ Total Record Count: @Model.TotalRecordCount
     </tbody>
 </table>
 <br />
-<nav aria-label="Products navigation example">
+<nav aria-label="makes">
     <vc:pager paging-list="@Model" />
 </nav>

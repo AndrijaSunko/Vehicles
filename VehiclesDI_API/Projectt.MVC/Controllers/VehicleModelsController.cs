@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Project.MVC2.Data;
 using Project.MVC2.Models;
 using Project.Service.Interface;
+using ReflectionIT.Mvc.Paging;
 
 namespace Project.MVC2.Controllers
 {
@@ -33,18 +34,19 @@ namespace Project.MVC2.Controllers
         
         public async Task<IActionResult> Index(string sortOrder,
                                                  string currentFilter,
-                                                 string searchString)
+                                                 string searchString, int pageindex = 1)
 
             {
-                try
-                {
-                    ViewData["CurrentSort"] = sortOrder;
-                    ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                    ViewData["AbrvSortParm"] = String.IsNullOrEmpty(sortOrder) ? "abrv_desc" : "";
-                    ViewData["MakeIdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "makeId_desc" : "";
-                    ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["AbrvSortParm"] = String.IsNullOrEmpty(sortOrder) ? "abrv_desc" : "";
+            ViewData["MakeIdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "makeId_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
 
-                    IEnumerable<VehicleModel> models = (IEnumerable<VehicleModel>)_repository.VehicleModel.GetAllModels
+            try
+                {
+                    
+                    IQueryable<VehicleModel> models = (IQueryable<VehicleModel>)_repository.VehicleModel.GetAllModels
                                                           (sortOrder,
                                                           currentFilter,
                                                           searchString
@@ -55,9 +57,9 @@ namespace Project.MVC2.Controllers
                                                               Abrv = u.Abrv
 
                                                           });
-
-                    return View(models);
-                    //  return View(await PaginatedList<VehicleMake>.CreateAsync((IQueryable<VehicleMake>)makes, pageNumber ?? 1, pageSize));
+                var vju = PagingList.Create(models, 3, pageindex);
+                return View(vju);
+                    
                 }
                 catch (Exception ex)
                 {

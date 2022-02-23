@@ -21,17 +21,13 @@ namespace Project.Service.Repository
             _context = applicationDbContext;
         }
 
-        public IEnumerable<VehicleModel> GetAllModels(string sortOrder,
+        public IQueryable<VehicleModel> GetAllModels(string sortOrder,
                                                 string currentFilter,
                                                 string searchString
                                                 )
         {
             var models = from s in _context.VehicleModel
                         select s;
-
-
-
-
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -56,17 +52,9 @@ namespace Project.Service.Repository
             }
 
             int pageSize = 3;
-            return models.ToList();
+            return models;
         }
-            /*
-            public PaginatedList<VehicleModel> GetAllModels(ModelParams modelParams)
-            {
-
-
-                //   var sortedModels = _sortHelper.ApplySort(models, modelParams.OrderBy);
-               // return PaginatedList<VehicleModel>.ToPaginatedList(FindAll().OrderBy(mo => mo.Name),
-                //                               modelParams.pageNumber, modelParams.pageSize);
-            } */
+       
 
             public VehicleModel GetModelById(int Id)
         {
