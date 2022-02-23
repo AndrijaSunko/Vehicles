@@ -17,6 +17,10 @@ namespace Project.Service.Interface
         // PaginatedList<VehicleModel> GetAllModels(ModelParams modelParams);
         VehicleModel GetModelById(int Id);
         VehicleModel GetModelsWithDetails(int Id);
+        void CreateVehicleModel(VehicleModel vehicleModel);
 
+        void UpdateVehicleModel(VehicleModel vehicleModel);
+
+        void DeleteVehicleModel(VehicleModel vehicleModel);
     }
 }

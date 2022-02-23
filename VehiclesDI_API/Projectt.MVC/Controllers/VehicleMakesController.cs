@@ -84,7 +84,7 @@ namespace Project.MVC2.Controllers
                 _logger.LogInfo($"Returned make with details with Id: {Id}");
 
                 var makeResult = _mapper.Map<VehicleMakeDto>(make);
-                return View(make);
+                return View(makeResult);
 
             }
             catch (Exception ex)
@@ -224,8 +224,6 @@ namespace Project.MVC2.Controllers
             }
 
 
-
-            
         }
 
         // POST: VehicleMakes/Delete/5

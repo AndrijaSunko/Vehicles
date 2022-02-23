@@ -67,5 +67,11 @@ namespace Project.Service.Repository
             return FindByCondition(VehicleModel => VehicleModel.Id.Equals(Id))
                   .FirstOrDefault();
         }
+
+        public void CreateVehicleModel(VehicleModel vehicleModel) => Create(vehicleModel);
+
+        public void UpdateVehicleModel(VehicleModel vehicleModel) => Update(vehicleModel);
+
+        public void DeleteVehicleModel(VehicleModel vehicleModel) => Delete(vehicleModel);
     }
 }

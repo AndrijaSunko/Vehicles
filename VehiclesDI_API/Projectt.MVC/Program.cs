@@ -29,8 +29,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 {
-    builder.RegisterType<MakeRepository>().As<IMakeRepository>().InstancePerLifetimeScope();
-    builder.RegisterType<ModelRepository>().As<IModelRepository>().InstancePerLifetimeScope();
+    
     builder.RegisterType<SortHelper<VehicleMake>>().As<ISortHelper<VehicleMake>>().InstancePerLifetimeScope();
     builder.RegisterType<SortHelper<Project.Service.Models.VehicleModel>>().As<ISortHelper<Project.Service.Models.VehicleModel>>().InstancePerLifetimeScope();
     builder.RegisterType<LoggerManager>().As<ILoggerManager>().SingleInstance();
